@@ -11,24 +11,23 @@
 <body>
   <div class="workspace">
     <aside class="sidebar">
-      <div class="brand-row"><div class="brand-icon">o</div><div><strong>orbit</strong><small>产品团队工作区</small></div><button class="quiet-button" aria-label="工作区选项">⌄</button></div>
-      <div class="side-nav"><button class="side-link selected"><span>▦</span> 项目</button><button class="side-link"><span>⌕</span> 我的任务 <span class="side-count">5</span></button><button class="side-link"><span>▣</span> 收件箱 <i class="notification-dot"></i></button></div>
+      <div class="brand-row"><div class="brand-icon">o</div><div><strong>orbit</strong><small>产品团队工作区</small></div><button id="workspace-menu-button" class="quiet-button" aria-label="工作区选项" aria-expanded="false" type="button">⌄</button></div>
+      <div class="side-nav"><button class="side-link selected" data-section="project" type="button"><span>▦</span> 项目</button><button class="side-link" data-section="mine" type="button"><span>⌕</span> 我的任务 <span id="my-task-count" class="side-count">5</span></button><button class="side-link" data-section="inbox" type="button"><span>▣</span> 收件箱 <i class="notification-dot"></i></button></div>
       <div class="side-section-title"><span>你的项目</span><button id="new-project-hint" class="quiet-button" title="演示项目">＋</button></div>
-      <button class="project-link active"><i class="project-color"></i> 移动端体验升级</button>
-      <button class="project-link"><i class="project-color green"></i> 增长实验</button>
-      <button class="project-link"><i class="project-color amber"></i> 客户反馈中心</button>
-      <div class="sidebar-bottom"><div class="team-avatar">产</div><div><strong>产品团队</strong><small>团队空间</small></div><button class="quiet-button">···</button></div>
+      <div id="project-list"></div>
+      <div class="sidebar-bottom"><div class="team-avatar">产</div><div><strong>产品团队</strong><small>团队空间</small></div><button id="team-menu-button" class="quiet-button" aria-label="团队选项" aria-expanded="false" type="button">···</button></div>
     </aside>
 
     <main class="main-content">
-      <header class="topbar"><div class="breadcrumbs"><span>项目</span><b>/</b><strong>移动端体验升级</strong></div><div class="top-actions"><button id="reset-board" class="quiet-button" title="重置示例数据" aria-label="重置示例数据">↻</button><span class="top-avatar">林</span></div></header>
+      <header class="topbar"><div class="breadcrumbs"><span id="section-crumb">项目</span><b>/</b><strong id="project-crumb">移动端体验升级</strong></div><div class="top-actions"><button id="reset-board" class="quiet-button" title="重置示例数据" aria-label="重置示例数据" type="button">↻</button><span class="top-avatar">林</span></div></header>
       <div class="page-content">
-        <div class="project-title-row"><div><div class="project-kicker"><span class="project-color"></span> 产品与设计 <span class="separator">·</span> 2026 Q3</div><h1>移动端体验升级</h1><p class="subtitle">让每一次移动端操作都更简单、更顺手。</p></div><button id="add-task" class="add-button"><span>＋</span> 新建任务</button></div>
+        <div class="project-title-row"><div><div class="project-kicker"><span class="project-color"></span> 产品与设计 <span class="separator">·</span> 2026 Q3</div><h1 id="project-heading">移动端体验升级</h1><p id="project-subtitle" class="subtitle">让每一次移动端操作都更简单、更顺手。</p></div><button id="add-task" class="add-button" type="button"><span>＋</span> 新建任务</button></div>
 
         <section class="cycle-card" aria-label="当前迭代进度"><div class="cycle-icon">↗</div><div class="cycle-info"><div class="cycle-title"><strong id="cycle-name">第 08 期迭代</strong><span class="cycle-status">进行中</span></div><p id="cycle-dates"></p></div><div class="cycle-progress"><div class="progress-label"><span>迭代进度</span><strong id="progress-count">0 / 0 已完成</strong></div><div class="progress-track"><span id="progress-fill"></span></div></div><div class="cycle-percent"><strong id="progress-percent">0%</strong><span>已完成</span></div><div class="cycle-days"><strong id="days-left">—</strong><span>剩余天数</span></div></section>
 
-        <div class="board-toolbar"><div class="view-tabs"><button class="view-tab active">看板</button><button class="view-tab">列表</button></div><div class="filters"><label class="search-field"><span>⌕</span><input id="task-search" type="search" placeholder="搜索任务" autocomplete="off"></label><select id="assignee-filter" aria-label="按负责人筛选"><option value="all">所有负责人</option></select><button id="clear-filters" class="clear-button hidden">清除筛选</button></div><button class="more-button" aria-label="看板选项">···</button></div>
+        <div id="board-toolbar" class="board-toolbar"><div class="view-tabs"><button class="view-tab active" type="button">看板</button><button class="view-tab" type="button">列表</button></div><div class="filters"><label class="search-field"><span>⌕</span><input id="task-search" type="search" placeholder="搜索任务" autocomplete="off"></label><select id="assignee-filter" aria-label="按负责人筛选"><option value="all">所有负责人</option></select><button id="clear-filters" class="clear-button hidden" type="button">清除筛选</button></div><button id="board-menu-button" class="more-button" aria-label="看板选项" aria-expanded="false" type="button">···</button></div>
         <nav id="mobile-status-nav" class="mobile-status-nav" aria-label="任务状态筛选"></nav>
+        <section id="activity-view" class="activity-view hidden" aria-label="待处理提醒"></section>
         <section id="board" class="board" aria-label="任务看板"></section>
         <footer class="board-footer"><span class="demo-state-dot"></span> 所有更改自动保存在当前浏览器 <span class="footer-divider">·</span> 点击任务卡片可编辑</footer>
       </div>
@@ -47,6 +46,15 @@
       <div class="form-grid"><div><label class="field-label" for="task-assignee">负责人</label><select id="task-assignee" class="text-input"></select></div><div><label class="field-label" for="task-label">标签</label><input id="task-label" class="text-input" maxlength="24" placeholder="例如：体验优化"></div></div>
       <p id="form-error" class="form-error" role="alert"></p>
       <div class="dialog-actions"><button type="button" id="cancel-dialog" class="cancel-button">取消</button><button type="submit" class="save-button">保存任务</button></div>
+    </form>
+  </dialog>
+  <dialog id="project-dialog" class="task-dialog">
+    <form id="project-form" method="dialog">
+      <div class="dialog-heading"><div><span class="eyebrow">项目管理</span><h2>新建项目</h2></div><button type="button" id="close-project-dialog" class="close-button" aria-label="关闭">×</button></div>
+      <label class="field-label" for="project-name-input">项目名称 <span>*</span></label><input id="project-name-input" class="text-input" maxlength="40" required placeholder="例如：结算体验优化">
+      <label class="field-label" for="project-description-input">项目说明</label><textarea id="project-description-input" class="text-input" rows="3" maxlength="180" placeholder="写下项目目标或团队背景"></textarea>
+      <p id="project-form-error" class="form-error" role="alert"></p>
+      <div class="dialog-actions"><button type="button" id="cancel-project-dialog" class="cancel-button">取消</button><button type="submit" class="save-button">创建项目</button></div>
     </form>
   </dialog>
 </body>
